@@ -1,34 +1,76 @@
-function vim::clean::all {
+function vim_clean_all {
   echo "Deleting ${HOME}/.vim"
   rm -rf ${HOME}/.vim
   echo "Deleting ${HOME}/.vimrc"
   rm -f ${HOME}/.vimrc
 }
 
-function vim::plugin::pathogen::install {
+function vim_plugin_pathogen_install {
+  echo "Installing VIM plugin Pathogen" 
   mkdir -p ~/.vim/autoload ~/.vim/bundle
   curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+  echo "Done"
 }
 
-function vim::plugin::nerdtree::install {
+function vim_plugin_nerdtree_install {
+  echo "Installing VIM plugin Nerdtree" 
   git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
+  echo "Done"
 }
 
-function vim::plugin::jellybeans::install {
+function vim_plugin_jellybeans_install {
+  echo "Installing VIM plugin Jellybeans" 
   git clone https://github.com/nanotech/jellybeans.vim.git /tmp/jellybeans
   mkdir -p "${HOME}/.vim/colors"
   mv /tmp/jellybeans/colors/jellybeans.vim ~/.vim/colors/
   rm -rf /tmp/jellybeans
+  echo "Done"
 }
 
-function vim::plugins::install::all {
-  vim::clean::all
-  vim::plugin::pathogen::install
-  vim::plugin::nerdtree::install
-  vim::plugin::jellybeans::install
+function vim_plugin_tcomment_install {
+  echo "Installing VIM plugin Tcomment" 
+  git clone https://github.com/tomtom/tcomment_vim.git ~/.vim/tcomment
+  echo "Done"
 }
 
-function vim::config {
+function vim_plugin_neocomplete_install {
+  echo "Installing VIM plugin Neocomplete"
+  git clone https://github.com/Shougo/neocomplete.vim.git ~/.vim/neocomplete
+  echo "Done"
+}
+
+function vim_plugin_vimgo_install {
+  echo "Installing VIM plugin Vim-go"
+  git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go
+  echo "Done"
+}
+
+function vim_plugin_ansible_install {
+  echo "Installing VIM plugin vim-ansible-yaml"
+  git clone git://github.com/chase/vim-ansible-yaml.git ~/.vim/bundle/vim-ansible-yaml
+  echo "Done"
+}
+
+function vim_plugin_puppet_install {
+  echo "Installing VIM plugin vim-puppet"
+  git clone https://github.com/rodjek/vim-puppet.git ~/.vim/bundle/puppet
+  echo "Done"
+}
+
+function vim_plugins_install_all {
+  vim_clean_all
+  vim_plugin_pathogen_install
+  vim_plugin_nerdtree_install
+  vim_plugin_jellybeans_install
+  vim_plugin_tcomment_install 
+  vim_plugin_neocomplete_install 
+  vim_plugin_vimgo_install 
+  vim_plugin_ansible_install 
+  vim_plugin_puppet_install
+  vim_config
+}
+
+function vim_config {
 cat > "${HOME}/.vimrc" << EOF
 set nu
 set number
@@ -66,6 +108,7 @@ colorscheme jellybeans
 let loaded_netrwPlugin = 1
 let g:go_fmt_command = "goimports"
 "let b:goimports_vendor_compatible =1
+let g:neocomplete#enable_at_startup = 1
 
 
 execute pathogen#infect()
