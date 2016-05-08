@@ -29,13 +29,13 @@ function vim_plugin_jellybeans_install {
 
 function vim_plugin_tcomment_install {
   echo "Installing VIM plugin Tcomment" 
-  git clone https://github.com/tomtom/tcomment_vim.git ~/.vim/tcomment
+  git clone https://github.com/tomtom/tcomment_vim.git ~/.vim/bundle/tcomment
   echo "Done"
 }
 
 function vim_plugin_neocomplete_install {
   echo "Installing VIM plugin Neocomplete"
-  git clone https://github.com/Shougo/neocomplete.vim.git ~/.vim/neocomplete
+  git clone https://github.com/Shougo/neocomplete.vim.git ~/.vim/bundle/neocomplete
   echo "Done"
 }
 
@@ -55,19 +55,6 @@ function vim_plugin_puppet_install {
   echo "Installing VIM plugin vim-puppet"
   git clone https://github.com/rodjek/vim-puppet.git ~/.vim/bundle/puppet
   echo "Done"
-}
-
-function vim_plugins_install_all {
-  vim_clean_all
-  vim_plugin_pathogen_install
-  vim_plugin_nerdtree_install
-  vim_plugin_jellybeans_install
-  vim_plugin_tcomment_install 
-  vim_plugin_neocomplete_install 
-  vim_plugin_vimgo_install 
-  vim_plugin_ansible_install 
-  vim_plugin_puppet_install
-  vim_config
 }
 
 function vim_config {
@@ -150,3 +137,18 @@ endif
 filetype plugin indent on
 EOF
 }
+
+function vim_setup {
+  vim_clean_all
+  vim_plugin_pathogen_install
+  vim_plugin_nerdtree_install
+  vim_plugin_jellybeans_install
+  vim_plugin_tcomment_install 
+  vim_plugin_neocomplete_install 
+  vim_plugin_vimgo_install 
+  vim_plugin_ansible_install 
+  vim_plugin_puppet_install
+  vim_config
+}
+
+
