@@ -83,5 +83,3 @@ function tools_install_all {
   tools_packer_install 
   tools_gitpromt
 }
-
-tools_install_all
