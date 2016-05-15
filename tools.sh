@@ -1,6 +1,6 @@
 function tools_vbox_install {
-  vboxmanage -version >/dev/null 2&>1
-  if [ $? -ne 0 ]
+  vboxmanage -version >/dev/null 2>&1
+  if [ $? = 127 ]
   then
     apt-get install virtualbox
   else 
@@ -19,23 +19,24 @@ function tools_vbox_install {
 # echo $VBOX_PKG
 #
 # test  ! -f "${HOME}/Downloads/${VBOX_PKG}" && curl "${VBOX_BASE_URL}/${VBOX_VERSION}/${VBOX_PKG}" -o "${HOME}/Downloads/${VBOX_PKG}"
+  echo "------------------------------"
 }
 
 function tools_docker_install {
-  docker -v >/dev/null 2&>1
-  if [ $? -ne 0 ]
+  docker -v >/dev/null 2>&1
+  if [ $? = 127 ]
   then
     # echo ${STATUS}
     apt-get install docker.io
   else 
     echo "Docker is already installed"
   fi
+  echo "------------------------------"
 }
 
 function tools_bashrc {
   curl -o "${HOME}/.bashrc_git" https://raw.githubusercontent.com/yalmaty/mysetup/master/.bashrc 
   less ~/.bashrc|grep 'source ~/.bashrc_git'
-  echo '.bashrc_git is installed in ${HOME}'
 
   if [ $? -ne 0 ]
   then
@@ -44,11 +45,13 @@ source ~/.bashrc_git
 EOF
     echo ".bashrc is updated"
   fi
+  echo "------------------------------"
 }
 
 function tools_gitpromt {
-  curl -o "${HOME}/.gitpromt" https://raw.githubusercontent.com/yalmaty/mysetup/master/.git-prompt.sh
+  test ! -f  "${HOME}/.gitpromt" && curl -o "${HOME}/.gitpromt" https://raw.githubusercontent.com/yalmaty/mysetup/master/.git-prompt.sh
   echo "Git promt is installed in ${HOME} directory"
+  echo "------------------------------"
 }
 
 function tools_packer_download {
@@ -63,24 +66,22 @@ function tools_packer_download {
 }
 
 function tools_packer_install {
-  packer -version >/dev/null 2&>1
-  STATUS=$?
-  if [ ${STATUS} -ne 0 ]
+  packer --version >/dev/null 2>&1
+  if [ $i? = 127 ]
   then
-    #echo ${STATUS}
     tools_packer_download
   else 
     echo "Packer is already installed"
   fi
+  echo "------------------------------"
 }
 
 
 function tools_install_all {
-  #tools_vbox_install
-  #tools_docker_install 
-  #tools_packer_install 
+  tools_vbox_install
+  tools_docker_install 
+  tools_packer_install 
   tools_gitpromt
-  tools_bashrc
 }
 
 tools_install_all
